@@ -1,0 +1,102 @@
+require "Hellenna.env.paroot-environment"
+local parser_path_unix  = "Hellenna/parser/parser.lua"
+local parser_path_win32 = parser_path_unix:gsub("/","\\")
+
+-- lua ocamlc <file> -o <release>
+-- lua ocamlc <file> -b <release
+
+
+--@transpile to Golang (.go)
+function go_transpile()
+    if getEnvironmentOS() == "Windows" then
+        --Windows
+        os.execute("lua "..parser_path_win32.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+    else
+        --Unixes
+        os.execute("lua "..parser_path_unix.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+    end
+end
+
+
+
+
+
+--@run directly (Go native)
+function go_run1()
+    if getEnvironmentOS() == "Windows" then
+        --Windows
+        os.execute("lua "..parser_path_win32.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+        os.execute("go run "..arg[3]..".go")
+    else
+        --Unixes
+        os.execute("lua "..parser_path_unix.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+        os.execute("go run "..arg[3]..".go")
+    end
+end
+
+--@run directly (implemented)
+function go_run2()
+    if getEnvironmentOS() == "Windows" then
+        --Windows
+        os.execute("lua "..parser_path_win32.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+        os.execute("go build "..arg[3]..".go")
+        os.execute("start "..arg[3]..".exe")
+
+        os.execute("del /f "..arg[3]..".go")
+        os.execute("del /f "..arg[3]..".exe")
+    else
+        --Unixes
+        os.execute("lua "..parser_path_unix.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+        os.execute("go build "..arg[3]..".go")
+        os.execute("./"..arg[3])
+
+        os.execute("rm -Rf "..arg[3]..".go")
+        os.execute("rm -Rf "..arg[3]..".exe")
+    end
+end
+
+
+
+
+--@build a binary executable
+function go_build()
+    if getEnvironmentOS() == "Windows" then
+        --Windows
+        os.execute("lua "..parser_path_win32.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+        os.execute("go build "..arg[3]..".go")
+    else
+        --Unixes
+        os.execute("lua "..parser_path_unix.." "..arg[1].." -o "..arg[3]..".o")
+        os.execute("lua "..arg[3]..".o")
+        os.execute("go build "..arg[3]..".go")
+    end
+end
+
+
+
+
+--@logic
+if arg[2] == "-o" or arg[2] == "--transpile" then
+    go_transpile()
+
+elseif arg[2] == "--run" then
+    go_run1()
+
+elseif arg[2] == "--build" then
+    go_build()
+else
+    print("\nTranslate to GoLang source code  (.go):          lua langc <source> --transpile <out>")
+    print("Build and run namespace:                         lua langc <source> --run <out>")
+    print("Or build a binary file  (.exe):                  lua langc <source> --build <out>\n")
+    
+    print("<source> = foo.x")
+    print("<out> = foo\n\n")
+
+end
