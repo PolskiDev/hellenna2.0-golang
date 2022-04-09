@@ -213,7 +213,7 @@ Console.Write |@msg|
 The **&** symbol is only used on a variable assign or function return to make a reference to a string, just like the **$** is used to make a reference to a variable at the declaration and assign. 
 
 ## C2. Hellenna 2.0 Data Types
-<img src="datatype-table.png">
+<img src="docs/datatype-table.png">
   
   
   
