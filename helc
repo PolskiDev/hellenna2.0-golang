@@ -92,9 +92,9 @@ elseif arg[2] == "--run" then
 elseif arg[2] == "--build" then
     go_build()
 else
-    print("\nTranslate to GoLang source code  (.go):          lua langc <source> --transpile <out>")
-    print("Build and run namespace:                         lua langc <source> --run <out>")
-    print("Or build a binary file  (.exe):                  lua langc <source> --build <out>\n")
+    print("\nTranslate to GoLang source code  (.go):          lua helc <source> --transpile <out>")
+    print("Build and run namespace:                         lua helc <source> --run <out>")
+    print("Or build a binary file  (.exe):                  lua helc <source> --build <out>\n")
     
     print("<source> = foo.x")
     print("<out> = foo\n\n")
